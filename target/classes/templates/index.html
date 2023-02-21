@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Authoadization</title>
@@ -7,8 +7,14 @@
     <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.3"></script>
 </head>
 <body>
-<div id="app">
-</div>
+<!--<div id="app">-->
+<!--</div>-->
+<form action="http://localhost:5004/auth/login" method="POST">
+    <input name="login" type="text"/>
+    <input name="password" type="password"/>
+    <input type="submit" text="Submit" />
+</form>
+
 <script src="/js/main.js"></script>
 </body>
 
