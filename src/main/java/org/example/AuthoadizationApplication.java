@@ -19,6 +19,7 @@ import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRep
 public class AuthoadizationApplication {
     public static void main(String[] args) {
 
-        SpringApplication.run(AuthoadizationApplication.class, args);
+        var context = SpringApplication.run(AuthoadizationApplication.class, args);
+        System.out.println(context);
     }
 }

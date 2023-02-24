@@ -7,10 +7,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 @Service
 public class MailUtil {
@@ -19,7 +16,7 @@ public class MailUtil {
 
     private final String confirmationLink;
 
-    private SynchronousQueue<SimpleMailMessage> messageQueue;
+    private BlockingDeque<SimpleMailMessage> messageQueue;
 
     private final ScheduledExecutorService scheduler;
 
@@ -49,8 +46,8 @@ public class MailUtil {
 
                     sender.send(arrMessage);
                 },
-                0, 30, TimeUnit.SECONDS);
-        messageQueue = new SynchronousQueue<>();
+                0, 1, TimeUnit.SECONDS);
+        messageQueue = new LinkedBlockingDeque<>();
     }
 
     public void send(String subject, String body, String...to) {
@@ -63,7 +60,7 @@ public class MailUtil {
         sender.send(message);
     }
 
-    public void addToMessageQueue(Account recipient) {
+    public void addToMessageQueue(Account recipient) throws InterruptedException {
 
         if(recipient.getCode() == null)
             throw new IllegalStateException("Confirmation code can't be null");
@@ -73,6 +70,6 @@ public class MailUtil {
         message.setSubject(confirmationSubject);
         message.setText(String.format(confirmationMail, recipient.getLogin(), confirmationLink, recipient.getCode()));
 
-        messageQueue.add(message);
+        messageQueue.put(message);
     }
 }

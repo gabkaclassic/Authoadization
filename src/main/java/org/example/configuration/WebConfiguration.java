@@ -1,8 +1,10 @@
 package org.example.configuration;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
@@ -24,6 +26,7 @@ public class WebConfiguration {
 
     private final ReactiveAuthenticationManager manager;
     private final SecurityContextRepository repository;
+
     @Bean
     public SecurityWebFilterChain filterChain(ServerHttpSecurity security) throws Exception {
 
@@ -36,7 +39,7 @@ public class WebConfiguration {
                 .authenticationManager(manager)
                 .securityContextRepository(repository)
                 .authorizeExchange()
-                .pathMatchers("/", "/auth/login", "/auth/registration")
+                .pathMatchers("/", "/auth/login", "/auth/registration", "/auth/confirm/**", "/test")
                 .permitAll().anyExchange().authenticated();
 
         return security.build();
