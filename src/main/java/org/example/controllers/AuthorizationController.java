@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -25,15 +27,20 @@ public class AuthorizationController {
                 );
     }
     @PostMapping("/registration")
-    public String registration(@RequestParam String login, @RequestParam String password) throws InterruptedException {
+    public Mono<ResponseEntity<List<String>>> registration(@RequestParam String login, @RequestParam String password) throws InterruptedException {
 
-        accountService.registry(login, password);
-        return "Successful";
+        return accountService.registry(login, password);
     }
 
     @GetMapping("/confirm/{code}")
     public Mono<ResponseEntity<String>> someString(@PathVariable String code) {
 
         return accountService.confirm(code);
+    }
+
+    @PutMapping("/update")
+    public Mono<ResponseEntity<List<String>>> update(@RequestParam String login, @RequestParam String password) {
+
+        return accountService.update(login, password);
     }
 }

@@ -59,6 +59,7 @@ public class JwtUtil {
         var claims = new HashMap<String, Object>();
         claims.put("role", account.getAuthorities());
 
+
         var creation = new Date();
         var expiration = new Date(creation.getTime() + this.expiration);
 

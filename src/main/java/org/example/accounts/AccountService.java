@@ -1,9 +1,9 @@
 package org.example.accounts;
 
 import lombok.RequiredArgsConstructor;
+import org.example.configuration.utils.AccountValidator;
 import org.example.configuration.utils.JwtUtil;
 import org.example.configuration.utils.MailUtil;
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -27,13 +29,13 @@ public class AccountService implements ReactiveUserDetailsService {
 
     private final PasswordEncoder encoder;
 
-    private final ReactiveMongoTemplate template;
+    private final AccountValidator validator;
 
     private final MailUtil mailUtil;
 
     private static final Random random = new Random();
 
-    private static final ResponseEntity<Object> UNAUTHORIZED = ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    private static final ResponseEntity<String> UNAUTHORIZED = ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("");
 
 
     @Override
@@ -41,18 +43,41 @@ public class AccountService implements ReactiveUserDetailsService {
         return repository.findByLogin(login);
     }
 
-    public void registry(String login, String password) throws InterruptedException {
+    public Mono<ResponseEntity<List<String>>> registry(String login, String password)  {
 
-        var account = new Account();
-        account.setLogin(login);
-        account.setPassword(password);
-        account.setCode(randomConfirmationCode());
-        repository.save(account).subscribe();
 
-        mailUtil.addToMessageQueue(account);
+        return repository
+                .existsByLogin(login)
+                .map(exists -> {
+
+                    var violations = new ArrayList<String>();
+
+                    if(exists)
+                        violations.add("Account with this email already exists");
+                    else
+                        validator.validate(login, password, violations);
+
+                    if(!violations.isEmpty())
+                        return ResponseEntity.badRequest().body(violations);
+
+                    var account = new Account();
+                    account.setLogin(login);
+                    account.setPassword(password);
+                    account.setCode(randomConfirmationCode());
+                    save(account);
+
+                    try {
+                        mailUtil.addToMessageQueue(account);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    return ResponseEntity.ok(violations);
+        });
+
     }
 
-    public Mono<ResponseEntity> login(String login, String password) {
+    public Mono<ResponseEntity<String>> login(String login, String password) {
 
 
         return findByUsername(login).cast(Account.class)
@@ -85,7 +110,43 @@ public class AccountService implements ReactiveUserDetailsService {
                 .toString();
     }
 
+    private void save(Account account) {
+        repository.save(account).subscribe();
+    }
+
     public Flux<Account> all() {
         return repository.findAll();
+    }
+
+    public Mono<ResponseEntity<List<String>>> update(String login, String password) {
+        return repository
+                .existsByLogin(login)
+                .map(exists -> {
+
+                    var violations = new ArrayList<String>();
+
+                    if(!exists)
+                        violations.add("Account with this email not exists");
+                    else
+                        validator.validate(login, password, violations);
+
+                    if(!violations.isEmpty())
+                        return ResponseEntity.badRequest().body(violations);
+
+                    var account = new Account();
+                    account.setLogin(login);
+                    account.setPassword(password);
+                    account.setCode(randomConfirmationCode());
+                    save(account);
+
+                    try {
+                        mailUtil.addToMessageQueue(account);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    return ResponseEntity.ok(violations);
+                });
+
     }
 }

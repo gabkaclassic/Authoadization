@@ -13,4 +13,6 @@ public interface AccountRepository extends ReactiveMongoRepository<Account, Stri
     Mono<UserDetails> findByLogin(String login);
 
     Mono<Account> findByCode(String code);
+
+    Mono<Boolean> existsByLogin(String login);
 }

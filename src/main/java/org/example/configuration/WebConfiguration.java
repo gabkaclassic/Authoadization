@@ -1,14 +1,11 @@
 package org.example.configuration;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -22,6 +19,7 @@ import reactor.core.publisher.Mono;
 @EnableReactiveMethodSecurity
 @EnableWebFluxSecurity
 @RequiredArgsConstructor
+@EnableReactiveMongoRepositories
 public class WebConfiguration {
 
     private final ReactiveAuthenticationManager manager;
