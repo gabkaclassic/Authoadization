@@ -1,9 +1,9 @@
 package org.example.accounts;
 
 import lombok.RequiredArgsConstructor;
-import org.example.configuration.utils.AccountValidator;
-import org.example.configuration.utils.JwtUtil;
-import org.example.configuration.utils.MailUtil;
+import org.example.utils.AccountValidator;
+import org.example.utils.JwtUtil;
+import org.example.utils.MailUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
@@ -61,7 +61,7 @@ public class AccountService implements ReactiveUserDetailsService {
                         return ResponseEntity.badRequest().body(violations);
 
                     var account = new Account();
-                    account.setLogin(login);
+                    account.setEmail(login);
                     account.setPassword(password);
                     account.setCode(randomConfirmationCode());
                     save(account);
@@ -134,7 +134,7 @@ public class AccountService implements ReactiveUserDetailsService {
                         return ResponseEntity.badRequest().body(violations);
 
                     var account = new Account();
-                    account.setLogin(login);
+                    account.setEmail(login);
                     account.setPassword(password);
                     account.setCode(randomConfirmationCode());
                     save(account);

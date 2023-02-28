@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,12 +20,18 @@ public class Account implements UserDetails {
     @Id
     private String id;
 
+    @Indexed(unique = true)
     private String login;
+
+    @Indexed(unique = true)
+    private String email;
 
     private String password;
 
     private Set<Authority> authorities;
 
+
+    @Indexed(unique = true)
     private String code;
 
     @Override
@@ -39,7 +46,7 @@ public class Account implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        return email;
     }
 
     @Override

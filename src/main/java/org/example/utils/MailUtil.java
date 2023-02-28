@@ -1,4 +1,4 @@
-package org.example.configuration.utils;
+package org.example.utils;
 
 import org.example.accounts.Account;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,9 +66,9 @@ public class MailUtil {
             throw new IllegalStateException("Confirmation code can't be null");
 
         var message = new SimpleMailMessage();
-        message.setTo(recipient.getLogin());
+        message.setTo(recipient.getEmail());
         message.setSubject(confirmationSubject);
-        message.setText(String.format(confirmationMail, recipient.getLogin(), confirmationLink, recipient.getCode()));
+        message.setText(String.format(confirmationMail, recipient.getEmail(), confirmationLink, recipient.getCode()));
 
         messageQueue.put(message);
     }

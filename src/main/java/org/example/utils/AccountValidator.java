@@ -1,4 +1,4 @@
-package org.example.configuration.utils;
+package org.example.utils;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;

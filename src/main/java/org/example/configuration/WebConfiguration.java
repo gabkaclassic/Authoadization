@@ -37,7 +37,7 @@ public class WebConfiguration {
                 .authenticationManager(manager)
                 .securityContextRepository(repository)
                 .authorizeExchange()
-                .pathMatchers("/", "/auth/login", "/auth/registration", "/auth/confirm/**", "/test")
+                .pathMatchers("/", "/auth/email", "/auth/registration", "/auth/confirm/**", "/test")
                 .permitAll().anyExchange().authenticated();
 
         return security.build();

@@ -1,4 +1,4 @@
-package org.example.configuration.utils;
+package org.example.utils;
 
 import org.example.security.Cryptographer;
 import org.example.security.SecurityData;

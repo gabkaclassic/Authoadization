@@ -2,7 +2,7 @@ package org.example.configuration;
 
 import lombok.RequiredArgsConstructor;
 import org.example.accounts.AccountService;
-import org.example.configuration.utils.JwtUtil;
+import org.example.utils.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;

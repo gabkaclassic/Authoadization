@@ -17,12 +17,12 @@ public class AuthorizationController {
 
     private final AccountService accountService;
 
-    @PostMapping("/login")
+    @PostMapping("/email")
     public Mono<ResponseEntity> login(ServerWebExchange exchange) {
 
         return exchange.getFormData()
                 .flatMap(credentials -> accountService.login(
-                        credentials.getFirst("login"),
+                        credentials.getFirst("email"),
                         credentials.getFirst("password"))
                 );
     }
