@@ -1,0 +1,7 @@
+.link_active_forget{
+    margin-top: 7px;
+  }
+  
+  .link_active_forget:hover{
+    color: rgb(76, 143, 9);
+  }

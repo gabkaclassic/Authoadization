@@ -1,0 +1,16 @@
+.input-form__login{
+    border-radius: 5px;
+    margin-top: 10px;
+    border: 2px solid rgb(183, 233, 132);
+    height: 30px;
+    width: 230px;
+  }
+
+  .input-form__login:hover{
+    border: 2px solid rgb(76, 143, 9);
+  }
+  
+  .input-form__login:focus{
+    outline: none;
+    border: 2px solid rgb(76, 143, 9);
+  }

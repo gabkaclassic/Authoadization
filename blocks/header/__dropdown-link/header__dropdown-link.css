@@ -1,0 +1,14 @@
+.header__dropdown-link{
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    background-color: rgb(157, 226, 88);
+    transition: background-color .5s linear;
+    border-radius: 10px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.header__dropdown-link:hover{
+    background-color: rgb(76, 143, 9);
+}

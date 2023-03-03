@@ -1,0 +1,17 @@
+.input-form__email{
+    border-radius: 5px;
+    margin-top: 20px;
+    border: 2px solid rgb(183, 233, 132);
+    height: 30px;
+    width: 230px;
+  }
+  
+  .input-form__email:hover{
+    border: 2px solid rgb(76, 143, 9);
+  }
+  
+  .input-form__email:focus{
+    outline: none;
+    border: 2px solid rgb(76, 143, 9);
+  }
+  

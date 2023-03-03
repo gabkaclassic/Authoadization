@@ -1,0 +1,21 @@
+.root {
+    min-width: 1100px;
+    max-width: 1600px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif, 'Helvetica Neue' ;
+  }
+  
+  
+  
+  .root{
+    background-image: url(../../../images/background-login.jpg);
+    backdrop-filter: blur(1.5px);
+    background-size: cover;
+    -webkit-background-size: cover;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  

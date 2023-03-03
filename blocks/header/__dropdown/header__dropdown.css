@@ -1,0 +1,15 @@
+.header__dropdown{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: inline-block;
+    
+}
+
+.header__dropdown:hover .header__dropdown-content {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    
+}
+

@@ -1,0 +1,11 @@
+.header__logo{
+    height: 100%;
+    
+    width: 10%;
+    padding-top: 15px;
+    padding-left: 10px;
+    color: rgb(76, 143, 9);
+    font-weight: 600;
+    font-size: 28px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}

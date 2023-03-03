@@ -1,0 +1,12 @@
+@import url(../vendor/normalize.css);
+@import url(../blocks/registration/root/root.css);
+@import url(../blocks/registration/form/form.css);
+@import url(../blocks/registration/form/__registration/forrm__registration.css);
+@import url(../blocks/registration/form_logo/form_logo.css);
+@import url(../blocks/registration/input-form/input-form.css);
+@import url(../blocks/registration/input-form/__bottom/input-form__bottom_registration.css);
+@import url(../blocks/registration/input-form/__email/input-form__email.css);
+@import url(../blocks/registration/input-form/__login/input-form__login.css);
+@import url(../blocks/registration/input-form/__password/input-form__password.css);
+@import url(../blocks/registration/link/link.css);
+@import url(../blocks/registration/link/_active/link_active_sign-in.css);

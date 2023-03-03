@@ -1,0 +1,7 @@
+@import url(../vendor/normalize.css);
+@import url(../blocks/main/main.css);
+@import url(../blocks/content/content.css);
+@import url(../blocks/home-page/content/content.css);
+@import url(../blocks/home-page/main/main.css);
+@import url(../blocks/home-page/root/root.css);
+@import url(../blocks/home-page/text-about-spoad/text-about-spoad.css);

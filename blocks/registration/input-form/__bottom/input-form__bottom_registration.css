@@ -1,0 +1,14 @@
+.input-form__bottom_registration{
+    border-radius: 5px;
+    background-color: rgb(183, 233, 132);
+    color: white;
+    width: 160px;
+    height: 30px;
+    border: none;
+    margin-top: 20px;
+  }
+  
+  .input-form__bottom_registration:hover{
+    background-color: rgb(76, 143, 9);
+    color: white;
+  }
