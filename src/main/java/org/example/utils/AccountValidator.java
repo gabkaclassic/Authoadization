@@ -14,15 +14,23 @@ public class AccountValidator {
     private static final Pattern PASSWORD_PATTERN_FIRST = Pattern.compile("\\w+");
     private static final Pattern PASSWORD_PATTERN_SECOND = Pattern.compile("\\d+");
     private static final Pattern PASSWORD_PATTERN_THREE = Pattern.compile("[^0-9a-zA-Z]+");
+
+    private static final Pattern LOGIN_PATTERN = Pattern.compile("[a-zA-z]+");
+
+    private static final int MIN_LENGTH_LOGIN = 2;
+    private static final int MAX_LENGTH_LOGIN = 32;
     private static final int MIN_LENGTH_PASSWORD = 8;
     private static final int MAX_LENGTH_PASSWORD = 128;
 
     public boolean validate(String login,
                            String password,
-                            List<String> remarks) {
+                           String email,
+                           List<String> remarks) {
 
-        return validLogin(login, remarks) && validPassword(password, remarks);
+        return validLogin(login, remarks) && validPassword(password, remarks) && validEmail(email, remarks);
     }
+
+
 
     public boolean validPassword(String password, List<String> remarks) {
 
@@ -47,6 +55,19 @@ public class AccountValidator {
     }
 
     public boolean validLogin(String login, List<String> remarks) {
+
+        boolean isCorrectLogin = Objects.nonNull(login)
+                && LOGIN_PATTERN.matcher((login = login.trim())).find()
+                && (login.length() >= MIN_LENGTH_LOGIN)
+                && (login.length() <= MAX_LENGTH_LOGIN);
+
+        if(!isCorrectLogin)
+            remarks.add(String.format("The login can contain %d-%d characters and 1 letter", MIN_LENGTH_LOGIN, MAX_LENGTH_LOGIN));
+
+        return isCorrectLogin;
+    }
+
+    public boolean validEmail(String login, List<String> remarks) {
 
         boolean isCorrectEmailAddress = Objects.nonNull(login)
                 && !login.isEmpty()

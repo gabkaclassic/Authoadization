@@ -6,7 +6,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
-import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 
 @SpringBootApplication
 @PropertySources({
@@ -15,7 +14,6 @@ import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRep
 @ComponentScans(
         @ComponentScan("org.example")
 )
-@EnableReactiveMongoRepositories
 public class AuthoadizationApplication {
     public static void main(String[] args) {
 

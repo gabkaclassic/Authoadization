@@ -27,20 +27,24 @@ public class AuthorizationController {
                 );
     }
     @PostMapping("/registration")
-    public Mono<ResponseEntity<List<String>>> registration(@RequestParam String login, @RequestParam String password) throws InterruptedException {
+    public Mono<ResponseEntity<List<String>>> registration(@RequestParam String login, @RequestParam String password, @RequestParam String email) throws InterruptedException {
 
-        return accountService.registry(login, password);
+        return accountService.registry(login, password, email);
     }
 
     @GetMapping("/confirm/{code}")
-    public Mono<ResponseEntity<String>> someString(@PathVariable String code) {
+    public Mono<ResponseEntity<String>> confirmation(@PathVariable String code) {
 
         return accountService.confirm(code);
     }
 
     @PutMapping("/update")
-    public Mono<ResponseEntity<List<String>>> update(@RequestParam String login, @RequestParam String password) {
+    public Mono<ResponseEntity<List<String>>> update(@RequestParam String oldLogin,
+                                                     @RequestParam(required = false) String newLogin,
+                                                     @RequestParam String oldPassword,
+                                                     @RequestParam(required = false) String newPassword,
+                                                     @RequestParam(required = false) String newEmail) {
 
-        return accountService.update(login, password);
+        return accountService.update(oldLogin, newLogin, oldPassword, newPassword, newEmail);
     }
 }

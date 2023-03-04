@@ -1,6 +1,7 @@
 package org.example.accounts;
 
 import lombok.RequiredArgsConstructor;
+import org.example.security.SecurityData;
 import org.example.utils.AccountValidator;
 import org.example.utils.JwtUtil;
 import org.example.utils.MailUtil;
@@ -15,6 +16,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Service
@@ -31,6 +33,8 @@ public class AccountService implements ReactiveUserDetailsService {
 
     private final AccountValidator validator;
 
+    private final SecurityData securityData;
+
     private final MailUtil mailUtil;
 
     private static final Random random = new Random();
@@ -43,7 +47,7 @@ public class AccountService implements ReactiveUserDetailsService {
         return repository.findByLogin(login);
     }
 
-    public Mono<ResponseEntity<List<String>>> registry(String login, String password)  {
+    public Mono<ResponseEntity<List<String>>> registry(String login, String password, String email)  {
 
 
         return repository
@@ -55,7 +59,7 @@ public class AccountService implements ReactiveUserDetailsService {
                     if(exists)
                         violations.add("Account with this email already exists");
                     else
-                        validator.validate(login, password, violations);
+                        validator.validate(login, password, email, violations);
 
                     if(!violations.isEmpty())
                         return ResponseEntity.badRequest().body(violations);
@@ -63,6 +67,7 @@ public class AccountService implements ReactiveUserDetailsService {
                     var account = new Account();
                     account.setEmail(login);
                     account.setPassword(password);
+                    account.setEmail(email);
                     account.setCode(randomConfirmationCode());
                     save(account);
 
@@ -118,28 +123,52 @@ public class AccountService implements ReactiveUserDetailsService {
         return repository.findAll();
     }
 
-    public Mono<ResponseEntity<List<String>>> update(String login, String password) {
+    public Mono<ResponseEntity<List<String>>> update(
+            String oldLogin,
+            String newLogin,
+            String oldPassword,
+            String newPassword,
+            String newEmail) {
+
         return repository
-                .existsByLogin(login)
-                .map(exists -> {
+                .findByLogin(oldLogin).cast(Account.class).defaultIfEmpty(null)
+                .map(account -> {
 
                     var violations = new ArrayList<String>();
 
-                    if(!exists)
-                        violations.add("Account with this email not exists");
-                    else
-                        validator.validate(login, password, violations);
+                    if(newLogin == null && newPassword == null && newEmail == null)
+                        violations.add("Nothing to update");
+
+                    if(account == null)
+                        violations.add("Account with this login not exists");
+                    else if(!encoder.matches(oldPassword, account.getPassword()))
+                        violations.add("Wrong password");
+                    else {
+
+                        if(newLogin != null)
+                            validator.validLogin(newLogin, violations);
+                        if(newPassword != null)
+                            validator.validPassword(newPassword, violations);
+                        if(newEmail != null)
+                            validator.validEmail(newEmail, violations);
+                    }
+
 
                     if(!violations.isEmpty())
                         return ResponseEntity.badRequest().body(violations);
 
-                    var account = new Account();
-                    account.setEmail(login);
-                    account.setPassword(password);
+                    if(newLogin != null)
+                        account.setLogin(newLogin);
+                    if(newPassword != null)
+                        account.setPassword(newPassword);
+                    if(newEmail != null)
+                        account.setEmail(newEmail);
+
                     account.setCode(randomConfirmationCode());
                     save(account);
 
                     try {
+
                         mailUtil.addToMessageQueue(account);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
@@ -148,5 +177,19 @@ public class AccountService implements ReactiveUserDetailsService {
                     return ResponseEntity.ok(violations);
                 });
 
+    }
+
+    public Mono<ResponseEntity<Map<String, String>>> interactionData(String login, String password) {
+
+        return repository.findByLogin(login).cast(Account.class).defaultIfEmpty(null)
+                .map(account -> {
+
+                    if(account == null)
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("Error", "Account with this login is not found"));
+                    else if(encoder.matches(password, account.getPassword()))
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("Error", "Wrong password"));
+
+                    return ResponseEntity.ok(Map.of("id", account.getId(), "key", securityData.getInteractionKey()));
+                });
     }
 }

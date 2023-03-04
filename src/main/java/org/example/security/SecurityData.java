@@ -3,6 +3,8 @@ package org.example.security;
 
 import lombok.Data;
 import org.example.exceptions.InvalidSecretKeyException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @Data
 public class SecurityData {
@@ -18,12 +20,17 @@ public class SecurityData {
         this.secretKey = cryptographer.encrypt(secret.getBytes());
     }
 
-    public void setInteractionKey(String secretKey, String interactionKey) throws InvalidSecretKeyException {
+    public String getInteractionKey() {
+        return new String(interactionKey);
+    }
+    public ResponseEntity setInteractionKey(String secretKey, String interactionKey) throws InvalidSecretKeyException {
 
         if(!checkSecretKey(secretKey))
-            throw new InvalidSecretKeyException();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
         this.interactionKey = cryptographer.encrypt(interactionKey.getBytes());
+
+        return ResponseEntity.ok().build();
     }
 
     public boolean checkSecretKey(String secretKey) {

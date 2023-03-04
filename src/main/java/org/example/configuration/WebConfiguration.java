@@ -12,7 +12,6 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Mono;
 
 @Configuration
@@ -37,16 +36,10 @@ public class WebConfiguration {
                 .authenticationManager(manager)
                 .securityContextRepository(repository)
                 .authorizeExchange()
-                .pathMatchers("/", "/auth/email", "/auth/registration", "/auth/confirm/**", "/test")
+                .pathMatchers( "/auth/email", "/auth/registration", "/auth/confirm/**", "/test")
                 .permitAll().anyExchange().authenticated();
 
         return security.build();
-    }
-
-    @Bean
-    public RestTemplate restTemplate() {
-
-        return new RestTemplate();
     }
 
     @Bean
