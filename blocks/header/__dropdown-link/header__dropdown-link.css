@@ -5,10 +5,10 @@
     display: block;
     background-color: rgb(157, 226, 88);
     transition: background-color .5s linear;
-    border-radius: 10px;
+    
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .header__dropdown-link:hover{
-    background-color: rgb(76, 143, 9);
+    background-color: rgb(113, 212, 14);
 }

@@ -12,3 +12,5 @@
 @import url(../blocks/header/__dropdown-link/header__dropdown-link.css);
 @import url(../blocks/header/__icon-menu/header__icon-menu.css);
 @import url(../blocks/header/__icon-notification/header__icon-notification.css);
+@import url(../blocks/header/__nav-icon-git/header__nav-icon-git.css);
+@import url(../blocks/header/__nav-icin-aws/header__nav-icon-aws.css);

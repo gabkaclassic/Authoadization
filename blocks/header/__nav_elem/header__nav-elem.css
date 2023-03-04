@@ -5,7 +5,7 @@
     width: 50%;
     border: 1px solid white;
     background-color: rgb(157, 226, 88);
-    transition: background-color linear 1s;
+    transition: background-color linear .5s;
     border-radius: 5%;
     display: flex;
     justify-content: center;
@@ -13,5 +13,5 @@
 }
 
 .header__nav-elem:hover{
-    background-color: rgb(76, 143, 9);
+    background-color: rgb(113, 212, 14);
 }
