@@ -19,7 +19,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class Account implements UserDetails {
     @Id
-    @Encrypted
     private String id;
 
     @Indexed(unique = true)
