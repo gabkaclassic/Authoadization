@@ -51,13 +51,13 @@ public class AccountService implements ReactiveUserDetailsService {
 
 
         return repository
-                .existsByLogin(login)
+                .existsByLoginOrEmail(login, email)
                 .map(exists -> {
 
                     var violations = new ArrayList<String>();
 
                     if(exists)
-                        violations.add("Account with this email already exists");
+                        violations.add("Account with this login already exists");
                     else
                         validator.validate(login, password, email, violations);
 
@@ -65,8 +65,8 @@ public class AccountService implements ReactiveUserDetailsService {
                         return ResponseEntity.badRequest().body(violations);
 
                     var account = new Account();
-                    account.setEmail(login);
-                    account.setPassword(password);
+                    account.setLogin(login);
+                    account.setPassword(encoder.encode(password));
                     account.setEmail(email);
                     account.setCode(randomConfirmationCode());
                     save(account);
@@ -87,7 +87,7 @@ public class AccountService implements ReactiveUserDetailsService {
 
         return findByUsername(login).cast(Account.class)
                 .map(
-                        account -> (encoder.matches(password, account.getPassword()) && account.isAccountNonLocked()) ?
+                        account -> (account != null && encoder.matches(password, account.getPassword()) && account.isAccountNonLocked()) ?
                 ResponseEntity.ok(jwtUtil.generateToken(account))
                         : UNAUTHORIZED
                 );
@@ -101,6 +101,7 @@ public class AccountService implements ReactiveUserDetailsService {
                 return ResponseEntity.ok().body(UNSUCCESSFUL_CONFIRM);
 
             account.setCode(null);
+            repository.save(account);
 
             return ResponseEntity.ok(SUCCESSFUL_CONFIRM);
         });

@@ -47,7 +47,7 @@ public class AuthenticationManager implements ReactiveAuthenticationManager {
         String authToken = authentication.getCredentials().toString();
         String username = jwtUtil.extractUsername(authToken);
 
-        if(username == null || !jwtUtil.validateToken(authToken))
+        if(username == null || jwtUtil.validateToken(authToken))
             return Mono.empty();
 
         var claims = jwtUtil.getClaimsFromToken(authToken);

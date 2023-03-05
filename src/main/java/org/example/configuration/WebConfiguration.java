@@ -1,6 +1,7 @@
 package org.example.configuration;
 
 import lombok.RequiredArgsConstructor;
+import org.example.accounts.AccountRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
@@ -18,7 +19,7 @@ import reactor.core.publisher.Mono;
 @EnableReactiveMethodSecurity
 @EnableWebFluxSecurity
 @RequiredArgsConstructor
-@EnableReactiveMongoRepositories
+@EnableReactiveMongoRepositories(basePackageClasses = AccountRepository.class)
 public class WebConfiguration {
 
     private final ReactiveAuthenticationManager manager;
@@ -36,7 +37,7 @@ public class WebConfiguration {
                 .authenticationManager(manager)
                 .securityContextRepository(repository)
                 .authorizeExchange()
-                .pathMatchers( "/auth/email", "/auth/registration", "/auth/confirm/**", "/test")
+                .pathMatchers( "/auth/**", "/auth")
                 .permitAll().anyExchange().authenticated();
 
         return security.build();

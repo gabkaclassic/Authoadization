@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
@@ -15,4 +16,6 @@ public interface AccountRepository extends ReactiveMongoRepository<Account, Stri
     Mono<Account> findByCode(String code);
 
     Mono<Boolean> existsByLogin(String login);
+
+    Mono<Boolean> existsByLoginOrEmail(String login, String email);
 }

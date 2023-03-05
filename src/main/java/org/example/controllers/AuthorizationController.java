@@ -17,14 +17,10 @@ public class AuthorizationController {
 
     private final AccountService accountService;
 
-    @PostMapping("/email")
-    public Mono<ResponseEntity> login(ServerWebExchange exchange) {
+    @GetMapping
+    public Mono<ResponseEntity<String>> login(@RequestParam String login, @RequestParam String password) {
 
-        return exchange.getFormData()
-                .flatMap(credentials -> accountService.login(
-                        credentials.getFirst("email"),
-                        credentials.getFirst("password"))
-                );
+        return accountService.login(login, password);
     }
     @PostMapping("/registration")
     public Mono<ResponseEntity<List<String>>> registration(@RequestParam String login, @RequestParam String password, @RequestParam String email) throws InterruptedException {
