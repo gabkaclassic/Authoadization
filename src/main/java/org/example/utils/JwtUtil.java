@@ -63,7 +63,7 @@ public class JwtUtil {
         var creation = new Date();
         var expiration = new Date(creation.getTime() + this.expiration);
 
-        return Jwts.builder()
+        return "Bearer " + Jwts.builder()
                 .setClaims(claims)
                 .setSubject(account.getUsername())
                 .setIssuedAt(creation)

@@ -9,7 +9,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
-public interface AccountRepository extends ReactiveMongoRepository<Account, String>, ReactiveCrudRepository<Account, String> {
+public interface AccountRepository extends ReactiveMongoRepository<Account, String> {
 
     Mono<UserDetails> findByLogin(String login);
 

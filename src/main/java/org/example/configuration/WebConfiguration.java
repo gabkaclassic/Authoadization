@@ -1,9 +1,13 @@
 package org.example.configuration;
 
+import com.mongodb.reactivestreams.client.MongoClient;
+import com.mongodb.reactivestreams.client.MongoClients;
 import lombok.RequiredArgsConstructor;
 import org.example.accounts.AccountRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
@@ -28,7 +32,8 @@ public class WebConfiguration {
     @Bean
     public SecurityWebFilterChain filterChain(ServerHttpSecurity security) throws Exception {
 
-        security.csrf().disable()
+        security.cors().disable()
+                .csrf().disable()
                 .exceptionHandling()
                 .accessDeniedHandler((exchange, denied) -> Mono.fromRunnable(() -> exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN)))
                 .authenticationEntryPoint((exchange, ex) -> Mono.fromRunnable(() -> exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED)))
@@ -48,4 +53,5 @@ public class WebConfiguration {
 
         return new BCryptPasswordEncoder(16);
     }
+
 }
