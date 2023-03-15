@@ -46,7 +46,7 @@ public class MailUtil {
 
                     sender.send(arrMessage);
                 },
-                0, 1, TimeUnit.SECONDS);
+                0, 30, TimeUnit.SECONDS);
         messageQueue = new LinkedBlockingDeque<>();
     }
 

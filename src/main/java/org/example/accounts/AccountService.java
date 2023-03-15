@@ -61,7 +61,7 @@ public class AccountService implements ReactiveUserDetailsService {
                     var violations = new ArrayList<String>();
 
                     if(exists)
-                        violations.add("Account with this login already exists");
+                        violations.add("Account with this login/email already exists");
                     else
                         validator.validate(login, password, email, violations);
 
@@ -73,7 +73,7 @@ public class AccountService implements ReactiveUserDetailsService {
                     account.setPassword(encoder.encode(password));
                     account.setEmail(email);
                     account.setCode(randomConfirmationCode());
-                    save(account);
+                    repository.save(account).subscribe();
 
                     try {
                         mailUtil.addToMessageQueue(account);
