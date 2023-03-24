@@ -25,11 +25,4 @@ public class InteractionController {
 
         return data.setInteractionKey(secret, key);
     }
-    @GetMapping
-    public Mono<ResponseEntity<Map<String, String>>> interactionData(@RequestParam String login,
-                                                                     @RequestParam String password) {
-
-        return accountService.interactionData(login, password);
-    }
-
 }

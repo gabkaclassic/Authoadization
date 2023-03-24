@@ -50,8 +50,7 @@ public class AuthenticationManager implements ReactiveAuthenticationManager {
         if(username == null || jwtUtil.validateToken(authToken))
             return Mono.empty();
 
-        var claims = jwtUtil.getClaimsFromToken(authToken);
-        List<String> roles =  claims.get("role", List.class);
+        List<String> roles =  jwtUtil.extractRoles(authToken);
         var authorities = roles.stream().map(SimpleGrantedAuthority::new).toList();
 
         var auth = new UsernamePasswordAuthenticationToken(

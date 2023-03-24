@@ -4,21 +4,19 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.example.accounts.Account;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
-@Component
 public class JwtUtil {
 
     private final byte[] secret;
 
     private final Long expiration;
 
-    public JwtUtil(@Value("${jwt.secret}") String secret, @Value("${jwt.expiration}") String expiration) {
+    public JwtUtil(String secret, String expiration) {
         this.secret = secret.getBytes();
         this.expiration = Long.parseLong(expiration);
     }
@@ -42,7 +40,7 @@ public class JwtUtil {
         return subject;
     }
 
-    public Claims getClaimsFromToken(String authToken) {
+    private Claims getClaimsFromToken(String authToken) {
 
         return Jwts.parserBuilder().setSigningKey(secret).build()
                 .parseClaimsJws(authToken).getBody();
@@ -58,6 +56,7 @@ public class JwtUtil {
 
         var claims = new HashMap<String, Object>();
         claims.put("role", account.getAuthorities());
+        claims.put("id", account.getId());
 
 
         var creation = new Date();
@@ -70,5 +69,13 @@ public class JwtUtil {
                 .setExpiration(expiration)
                 .signWith(Keys.hmacShaKeyFor(secret))
                 .compact();
+    }
+
+    public String extractId(String token) {
+        return getClaimsFromToken(token).get("id").toString();
+    }
+
+    public List<String> extractRoles(String authToken) {
+        return getClaimsFromToken(authToken).get("role", List.class);
     }
 }

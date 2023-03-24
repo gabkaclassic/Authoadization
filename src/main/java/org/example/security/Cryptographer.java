@@ -1,5 +1,7 @@
 package org.example.security;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
@@ -11,9 +13,9 @@ public class Cryptographer {
     private SecretKey key;
 
     public Cryptographer(
-            String algorithmKey,
-            String algorithmCipher,
-            String key
+            @Value("${encryption.algorithm.key}") String algorithmKey,
+            @Value("${encryption.algorithm.cipher}") String algorithmCipher,
+            @Value("${encryption.key}") String key
     ) throws NoSuchPaddingException, NoSuchAlgorithmException {
 
         this.key = new SecretKeySpec(key.getBytes(), algorithmKey);
@@ -31,6 +33,7 @@ public class Cryptographer {
         }
     }
 
-    public byte[] encrypt(byte[] input) { return processString(input, Cipher.ENCRYPT_MODE); }
-    public byte[] decrypt(byte[] input) { return processString(input, Cipher.DECRYPT_MODE); }
+    public byte[] encrypt(byte[] input) { return (input == null) ? null : processString(input, Cipher.ENCRYPT_MODE); }
+    public byte[] decrypt(byte[] input) { return  (input == null) ? null : processString(input, Cipher.DECRYPT_MODE); }
+    public boolean matches(byte[] crypt, String value) { return new String(decrypt(crypt)).equals(value); }
 }

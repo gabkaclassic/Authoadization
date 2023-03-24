@@ -181,17 +181,14 @@ public class AccountService implements ReactiveUserDetailsService {
 
     }
 
-    public Mono<ResponseEntity<Map<String, String>>> interactionData(String login, String password) {
+    public Mono<ResponseEntity<Map<String, String>>> interactionData(String token) {
 
-        return repository.findByLogin(login).cast(Account.class).defaultIfEmpty(null)
-                .map(account -> {
-
-                    if(account == null)
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("Error", "Account with this login is not found"));
-                    else if(encoder.matches(password, account.getPassword()))
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("Error", "Wrong password"));
-
-                    return ResponseEntity.ok(Map.of("id", account.getId(), "key", securityData.getInteractionKey()));
-                });
+        return jwtUtil.validateToken(token) ?
+                Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("Error", "Wrong token")))
+                : Mono.just(ResponseEntity.ok(
+                        Map.of("id", jwtUtil.extractId(token), "key",
+                                securityData.getInteractionKey()
+                        )
+        ));
     }
 }
