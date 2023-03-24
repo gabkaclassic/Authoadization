@@ -12,7 +12,7 @@ import java.util.List;
 
 public class JwtUtil {
 
-    private final byte[] secret;
+    private byte[] secret;
 
     private final Long expiration;
 
@@ -77,5 +77,9 @@ public class JwtUtil {
 
     public List<String> extractRoles(String authToken) {
         return getClaimsFromToken(authToken).get("role", List.class);
+    }
+
+    public void setKey(byte[] key) {
+        secret = key;
     }
 }

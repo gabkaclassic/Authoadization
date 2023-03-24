@@ -3,6 +3,7 @@ package org.example.security;
 
 import lombok.Data;
 import org.example.exceptions.InvalidSecretKeyException;
+import org.example.utils.JwtUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -15,8 +16,11 @@ public class SecurityData {
 
     private Cryptographer cryptographer;
 
-    public SecurityData(Cryptographer cryptographer, String secret) {
+    private final JwtUtil jwtUtil;
+
+    public SecurityData(Cryptographer cryptographer, String secret, JwtUtil jwtUtil) {
         this.cryptographer = cryptographer;
+        this.jwtUtil = jwtUtil;
         this.secretKey = cryptographer.encrypt(secret.getBytes());
     }
 
@@ -28,7 +32,7 @@ public class SecurityData {
         if(!checkSecretKey(secretKey))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
-        this.interactionKey = cryptographer.encrypt(interactionKey.getBytes());
+        jwtUtil.setKey(cryptographer.decrypt(interactionKey.getBytes()));
 
         return ResponseEntity.ok().build();
     }

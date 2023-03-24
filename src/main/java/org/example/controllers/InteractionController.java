@@ -11,16 +11,12 @@ import reactor.core.publisher.Mono;
 import java.util.Map;
 
 @RestController
-@RequestMapping("interaction")
+@RequestMapping("security")
 @RequiredArgsConstructor
 public class InteractionController {
 
     private final SecurityData data;
-
-    private final AccountService accountService;
-
-
-    @PostMapping("/key")
+    @PostMapping("/interactionKey")
     public ResponseEntity setKey(@RequestParam("secretKey") String secret, @RequestParam("key") String key) throws InvalidSecretKeyException {
 
         return data.setInteractionKey(secret, key);
