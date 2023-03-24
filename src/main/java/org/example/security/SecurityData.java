@@ -27,23 +27,18 @@ public class SecurityData {
     public String getInteractionKey() {
         return new String(interactionKey);
     }
-    public ResponseEntity setInteractionKey(String secretKey, String interactionKey) throws InvalidSecretKeyException {
+    public ResponseEntity<String> setInteractionKey(String secretKey, String interactionKey) {
 
         if(!checkSecretKey(secretKey))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid secret key");
 
-        jwtUtil.setKey(cryptographer.decrypt(interactionKey.getBytes()));
+        jwtUtil.setKey(interactionKey.getBytes());
 
         return ResponseEntity.ok().build();
     }
 
     public boolean checkSecretKey(String secretKey) {
 
-        return secretKey != null && new String(cryptographer.decrypt(this.secretKey)).equals(secretKey);
-    }
-
-    public boolean checkInteractionKey(String interactionKey){
-
-        return interactionKey != null && new String(cryptographer.decrypt(this.interactionKey)).equals(interactionKey);
+        return secretKey != null && cryptographer.matches(this.secretKey, secretKey);
     }
 }

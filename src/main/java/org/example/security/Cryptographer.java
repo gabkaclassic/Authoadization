@@ -6,6 +6,7 @@ import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 public class Cryptographer {
 
@@ -35,5 +36,5 @@ public class Cryptographer {
 
     public byte[] encrypt(byte[] input) { return (input == null) ? null : processString(input, Cipher.ENCRYPT_MODE); }
     public byte[] decrypt(byte[] input) { return  (input == null) ? null : processString(input, Cipher.DECRYPT_MODE); }
-    public boolean matches(byte[] crypt, String value) { return new String(decrypt(crypt)).equals(value); }
+    public boolean matches(byte[] crypt, String value) { return Arrays.equals(decrypt(crypt), value.getBytes()); }
 }
