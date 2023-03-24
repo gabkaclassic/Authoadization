@@ -53,6 +53,7 @@ public class AuthenticationManager implements ReactiveAuthenticationManager {
         List<String> roles =  jwtUtil.extractRoles(authToken);
         var authorities = roles.stream().map(SimpleGrantedAuthority::new).toList();
 
+
         var auth = new UsernamePasswordAuthenticationToken(
                 username,
                 authentication.getCredentials(),
