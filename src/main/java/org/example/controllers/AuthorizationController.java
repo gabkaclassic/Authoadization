@@ -18,7 +18,7 @@ import java.net.URI;
 import java.util.List;
 
 
-@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.OPTIONS, RequestMethod.GET, RequestMethod.POST})
+@CrossOrigin(allowedHeaders = "*", methods = {RequestMethod.OPTIONS, RequestMethod.GET, RequestMethod.POST}, allowCredentials = "true", originPatterns = "*")
 @RequestMapping("/auth")
 @RestController
 @SuppressWarnings("unused")
