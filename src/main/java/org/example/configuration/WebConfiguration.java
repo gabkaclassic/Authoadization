@@ -1,7 +1,8 @@
 package org.example.configuration;
 
 import lombok.RequiredArgsConstructor;
-import org.example.accounts.AccountRepository;
+import org.example.data.accounts.AccountRepository;
+import org.example.configuration.auth.SecurityContextRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
@@ -38,7 +39,7 @@ public class WebConfiguration {
                 .authenticationManager(manager)
                 .securityContextRepository(repository)
                 .authorizeExchange()
-                .pathMatchers( "/auth/**", "/auth", "/security/interactionKey")
+                .pathMatchers( "/**")
                 .permitAll().anyExchange().authenticated();
 
         return security.build();
