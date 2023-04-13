@@ -23,9 +23,6 @@ import java.util.*;
 @RequiredArgsConstructor
 public class AccountService implements ReactiveUserDetailsService {
 
-    private static final String SUCCESSFUL_CONFIRM = "Successful";
-    private static final String UNSUCCESSFUL_CONFIRM = "Unsuccessful";
-
     private final AccountRepository repository;
 
     private final JwtUtil jwtUtil;
@@ -83,7 +80,7 @@ public class AccountService implements ReactiveUserDetailsService {
 
     }
 
-    public Mono<ResponseEntity<AuthorizationResponse>> login(String login, String password, WebSession session) {
+    public Mono<ResponseEntity<AuthorizationResponse>> login(String login, String password) {
 
 
         return findByUsername(login).cast(Account.class)
@@ -93,9 +90,7 @@ public class AccountService implements ReactiveUserDetailsService {
                             if(account == null || !encoder.matches(password, account.getPassword()) && account.isAccountNonLocked())
                                 return UNAUTHORIZED;
 
-                            session.getAttributes().putIfAbsent(session.getId(), jwtUtil.generateToken(account));
-
-                            return ResponseEntity.ok().body(new AuthorizationResponse(true));
+                            return ResponseEntity.ok().body(new AuthorizationResponse(jwtUtil.generateToken(account)));
                         }
                 );
     }

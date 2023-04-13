@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,7 +40,7 @@ public class WebConfiguration {
                 .authenticationManager(manager)
                 .securityContextRepository(repository)
                 .authorizeExchange()
-                .pathMatchers( "/**")
+                .pathMatchers( "/auth/**", "/auth", "/security/interactionKey")
                 .permitAll().anyExchange().authenticated();
 
         return security.build();

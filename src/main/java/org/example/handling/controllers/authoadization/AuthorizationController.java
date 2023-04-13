@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
@@ -35,10 +34,10 @@ public class AuthorizationController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<AuthorizationResponse>> login(@RequestParam String login, @RequestParam String password, WebSession session) {
+    public Mono<ResponseEntity<AuthorizationResponse>> login(@RequestParam String login, @RequestParam String password) {
 
 
-        return accountService.login(login, password, session);
+        return accountService.login(login, password);
     }
 
     @PostMapping

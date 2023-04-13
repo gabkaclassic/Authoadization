@@ -32,7 +32,6 @@ public class Account implements UserDetails {
 
     private Set<Authority> authorities = Set.of(Authority.USER);
 
-
     @Indexed(unique = true)
     private String code;
 
