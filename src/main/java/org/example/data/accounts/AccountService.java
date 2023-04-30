@@ -90,7 +90,8 @@ public class AccountService implements ReactiveUserDetailsService {
                             if(account == null || !encoder.matches(password, account.getPassword()) && account.isAccountNonLocked())
                                 return UNAUTHORIZED;
 
-                            return ResponseEntity.ok().body(new AuthorizationResponse(jwtUtil.generateToken(account)));
+                            String token = jwtUtil.generateToken(account);
+                            return ResponseEntity.ok().body(new AuthorizationResponse(token));
                         }
                 );
     }
