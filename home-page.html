@@ -6,33 +6,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spoad</title>
-    <link rel="stylesheet" href="pages/home-page.css">
-    <link rel="import" href="templates/header.html">
-    <link rel="stylesheet" href="pages/header.css">
+    <link rel="stylesheet" href="pages/home-page.css"> <!-- Подключение внешнего CSS файла для стилей домашней страницы -->
+    <link rel="import" href="templates/header.html"> <!-- Подключение внешнего HTML файла для шапки страницы -->
+    <link rel="stylesheet" href="pages/header.css"> <!-- Подключение внешнего CSS файла для стилей шапки -->
 </head>
 
 <body class="root">
     <header class="header">
-        <div class="header__logo">Spoad</div>
+        <div class="header__logo">Spoad</div> <!-- Логотип приложения "Spoad" -->
         <nav class="header__nav">
-            <div class="header__nav-elem"><a class="header__link" href="#">GitHub</a> <img src="../images/icons8-git.svg" alt="иконка гитхаба" class="header__nav-icon-git"></div>
-            <div class="header__nav-elem"><a class="header__link" href="#">AWS</a><img src="../images/icons8-скачать-из-облака-30.svg" class="header__nav-icon-aws"></div>
+            <div class="header__nav-elem"><a class="header__link" href="#">GitHub</a> <img src="../images/icons8-git.svg" alt="иконка гитхаба" class="header__nav-icon-git"></div> <!-- Ссылка на GitHub -->
+            <div class="header__nav-elem"><a class="header__link" href="#">AWS</a><img src="../images/icons8-скачать-из-облака-30.svg" class="header__nav-icon-aws"></div> <!-- Ссылка на Amazon Web Services -->
         </nav>
         <div class="header__block-image"><a href="#"><img class="header__icon-notification"
                     src="../images/alarm_alert_attention_bell_clock_notification_ring_icon_123203.svg"
-                    alt="иконка уведомлений" </a></div>
+                    alt="иконка уведомлений" </a></div> <!-- Иконка для уведомлений -->
         <div class="header__dropdown">
             <button class="header__dropbtn"><img class="header__icon-menu"
-                    src="../images/Menu_icon_2_icon-icons.com_71856.svg" alt="иконка меню"></button>
+                    src="../images/Menu_icon_2_icon-icons.com_71856.svg" alt="иконка меню"></button> <!-- Иконка для меню -->
             <div class="header__dropdown-content">
-                <a class="header__dropdown-link" href="#">Your profile</a>
-                <a class="header__dropdown-link" href="#">Settings</a>
-                <a class="header__dropdown-link" href="#">Sign out</a>
+                <a class="header__dropdown-link" href="#">Your profile</a> <!-- Ссылка на профиль пользователя -->
+                <a class="header__dropdown-link" href="#">Settings</a> <!-- Ссылка на настройки -->
+                <a class="header__dropdown-link" href="#">Sign out</a> <!-- Ссылка на выход из приложения -->
             </div>
         </div>
     </header>
     <main>
-        <div class="content"><p class="text-about-spoad">Ну мы короче такие классные, веселые и прикольные жабки, а это наше приложение. Если нравится, поставь квак в комментарии :)</p></div>
+        <div class="content"><p class="text-about-spoad">Ну мы короче такие классные, веселые и прикольные жабки, а это наше приложение. Если нравится, поставь квак в комментарии :)</p></div> <!-- Текст описания приложения -->
     </main>
     <footer>
 
@@ -40,3 +40,12 @@
 </body>
 
 </html>
+
+<!-- Документация и комментарии:
+- В данном HTML документе находится разметка для страницы приложения "Spoad", включая шапку (header), контент (main), и подвал (footer).
+- Каждый элемент имеет свой соответствующий класс для применения стилей.
+- Внешние файлы CSS и HTML подключаются с помощью тегов <link rel="stylesheet" href="..."> и <link rel="import" href="...">.
+- Логотип и иконки представлены в виде изображений и имеют альтернативный текст (атрибут alt) для доступности.
+- Некоторые элементы, такие как иконка уведомлений и меню, имеют обработчики событий JavaScript для отображения дополнительного функционала.
+- В подвале (footer) можно добавить другую информацию, например, ссылки на дополнительные страницы, контактные данные и т. д.
+-->
